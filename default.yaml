@@ -8,6 +8,8 @@ cpus: 4
 memory: 8GiB
 
 mounts:
+  - location: "~/archive"
+    writable: true
   - location: "/tmp/lima"
     writable: true
 
