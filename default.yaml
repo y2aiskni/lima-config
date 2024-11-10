@@ -23,16 +23,15 @@ provision:
       set -eux -o pipefail
       apt update
       apt upgrade -y
+      apt install -y jq yq
   - mode: user
     script: |
       #!/bin/bash
       set -eux -o pipefail
       command -v asdf >/dev/null 2>&1 && exit 0
       sudo apt install -y curl git
-      git clone https://github.com/asdf-vm/asdf.git ~/.asdf
-      cd ~/.asdf
-      ASDF_LATEST_VERSION=$(git tag --sort authordate | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | tail -n 1)
-      git checkout $ASDF_LATEST_VERSION
+      ASDF_LATEST_VERSION=$(curl -sL https://api.github.com/repos/asdf-vm/asdf/releases/latest | jq -r .tag_name)
+      git clone --branch $ASDF_LATEST_VERSION --depth 1 https://github.com/asdf-vm/asdf.git ~/.asdf
       cat << EOF >> ~/.bashrc
       # BEGIN asdf
       . "$HOME/.asdf/asdf.sh"
