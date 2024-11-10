@@ -32,7 +32,7 @@ provision:
       sudo apt install -y curl git
       ASDF_LATEST_VERSION=$(curl -sL https://api.github.com/repos/asdf-vm/asdf/releases/latest | jq -r .tag_name)
       git clone --branch $ASDF_LATEST_VERSION --depth 1 https://github.com/asdf-vm/asdf.git ~/.asdf
-      cat << EOF >> ~/.bashrc
+      cat << 'EOF' >> ~/.bashrc
       # BEGIN asdf
       . "$HOME/.asdf/asdf.sh"
       . "$HOME/.asdf/completions/asdf.bash"
