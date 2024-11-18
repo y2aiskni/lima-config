@@ -15,26 +15,3 @@ mounts:
 
 ssh:
   forwardAgent: true
-
-provision:
-  - mode: system
-    script: |
-      #!/bin/bash
-      set -eux -o pipefail
-      apt update
-      apt upgrade -y
-      apt install -y jq yq
-  - mode: user
-    script: |
-      #!/bin/bash
-      set -eux -o pipefail
-      command -v asdf >/dev/null 2>&1 && exit 0
-      sudo apt install -y curl git
-      ASDF_LATEST_VERSION=$(curl -sL https://api.github.com/repos/asdf-vm/asdf/releases/latest | jq -r .tag_name)
-      git clone --branch $ASDF_LATEST_VERSION --depth 1 https://github.com/asdf-vm/asdf.git ~/.asdf
-      cat << 'EOF' >> ~/.bashrc
-      # BEGIN asdf
-      . "$HOME/.asdf/asdf.sh"
-      . "$HOME/.asdf/completions/asdf.bash"
-      # END asdf
-      EOF
