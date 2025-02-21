@@ -7,7 +7,7 @@ Limaで使用する設定ファイルをまとめたレポジトリです。個�
 レポジトリをクローンしなくてもURLを直接指定することができる。
 
 ```shell
-limactl create --name default https://raw.githubusercontent.com/y2aiskni/lima-config/refs/heads/main/default.yaml
+limactl create --name default --cpus 4 --memory 8 https://raw.githubusercontent.com/y2aiskni/lima-config/refs/heads/main/default.yaml
 ```
 
 ```shell
