@@ -7,7 +7,7 @@ if [ $(uname -s) != "Linux" ]; then
 fi
 
 OS_ARCH=$(uname -m)
-if [ "$OS_ARCH" == "aarch64"]; then
+if [ "$OS_ARCH" == "aarch64" ]; then
   OS_ARCH="arm64"
 fi
 
