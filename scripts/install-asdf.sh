@@ -25,11 +25,16 @@ git clone --branch $ASDF_LATEST_VERSION --depth 1 https://github.com/asdf-vm/asd
 echo ""
 
 echo "# Set up shell"
+cat << 'EOF' >> ~/.bash_profile
+
+# BEGIN asdf
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+# END asdf
+EOF
 cat << 'EOF' >> ~/.bashrc
 
 # BEGIN asdf
-. "$HOME/.asdf/asdf.sh"
-. "$HOME/.asdf/completions/asdf.bash"
+. <(asdf completion bash)
 # END asdf
 EOF
 echo ""
