@@ -16,12 +16,10 @@ if !(command -v jq > /dev/null 2>&1); then
   exit 1
 fi
 
-echo "# Get version"
+echo "# Install asdf CLI"
 ASDF_LATEST_VERSION=$(curl -sSL https://api.github.com/repos/asdf-vm/asdf/releases/latest | jq -r .tag_name)
-echo ""
-
-echo "# Clone repository"
-git clone --branch $ASDF_LATEST_VERSION --depth 1 https://github.com/asdf-vm/asdf.git ~/.asdf
+OS_ARCH=$(uname -m)
+curl -sL "https://github.com/asdf-vm/asdf/releases/download/${ASDF_LATEST_VERSION}/asdf-${ASDF_LATEST_VERSION}-linux-${OS_ARCH}.tar.gz" | sudo tar -zxv -C /usr/local/bin
 echo ""
 
 echo "# Set up shell"
