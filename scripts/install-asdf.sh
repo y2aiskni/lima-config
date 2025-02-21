@@ -16,13 +16,15 @@ if !(command -v jq > /dev/null 2>&1); then
   exit 1
 fi
 
-echo -e "+++ get version +++"
+echo "# Get version"
 ASDF_LATEST_VERSION=$(curl -sSL https://api.github.com/repos/asdf-vm/asdf/releases/latest | jq -r .tag_name)
+echo ""
 
-echo -e "\n+++ clone repository... +++"
+echo "# Clone repository"
 git clone --branch $ASDF_LATEST_VERSION --depth 1 https://github.com/asdf-vm/asdf.git ~/.asdf
+echo ""
 
-echo -e "\n+++ set up shell +++"
+echo "# Set up shell"
 cat << 'EOF' >> ~/.bashrc
 
 # BEGIN asdf
@@ -30,5 +32,6 @@ cat << 'EOF' >> ~/.bashrc
 . "$HOME/.asdf/completions/asdf.bash"
 # END asdf
 EOF
+echo ""
 
-echo -e "\ncomplete!"
+echo "Complete!"
