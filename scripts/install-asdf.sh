@@ -26,13 +26,15 @@ if !(command -v jq > /dev/null 2>&1); then
   exit 1
 fi
 
-echo "# Install asdf CLI"
+echo "# Install asdf"
 ASDF_LATEST_VERSION=$(curl -sSL https://api.github.com/repos/asdf-vm/asdf/releases/latest | jq -r .tag_name)
 curl -sL "https://github.com/asdf-vm/asdf/releases/download/${ASDF_LATEST_VERSION}/asdf-${ASDF_LATEST_VERSION}-linux-${OS_ARCH}.tar.gz" | sudo tar -zxv -C /usr/local/bin
 echo ""
 
-echo "# Set up shell"
-cat << 'EOF' >> ~/.bash_profile
+echo "# Configuration asdf"
+# NOTE: 公式の手順には~/.bash_profileでパスを通すようになっているが、
+# ~/.profileをよみこまなくなるので.profileに追加します。
+cat << 'EOF' >> ~/.profile
 
 # BEGIN asdf
 export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
