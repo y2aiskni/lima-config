@@ -12,3 +12,16 @@ mounts:
 
 ssh:
   forwardAgent: true
+
+provision:
+  # Install Golang
+  - mode: user
+    script: |
+      #!/bin/bash
+      set -eux -o pipefail
+      type go && exit 0 || true
+      rm -rf /usr/local/go
+      curl -L https://go.dev/dl/go1.24.4.linux-arm64.tar.gz | sudo tar -C /usr/local -zxvf -
+      sudo tee /etc/profile.d/99-golang.sh << 'EOF'
+      export PATH=$PATH:/usr/local/go/bin
+      EOF
