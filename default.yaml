@@ -44,3 +44,15 @@ provision:
       . ~/.bash_profile # これをしないとなぜかnvmのパスが通らない
       type nvm > /dev/null && exit 0 || true
       curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | PROFILE="$HOME/.bash_profile" bash
+  # Install AWS CLI v2
+  - mode: user
+    script: |
+      #!/bin/bash
+      set -eux -o pipefail
+      type aws && exit 0 || true
+      sudo apt-get install unzip
+      install -d /tmp/awscli && cd /tmp/awscli
+      curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip"
+      unzip awscliv2.zip
+      sudo ./aws/install
+      cd && rm -rf /tmp/awscli
