@@ -19,7 +19,7 @@ provision:
     script: |
       #!/bin/bash
       set -eux -o pipefail
-      if [ -f ~/.bash_profile ]; then exit 0; fi
+      [ -f ~/.bash_profile ] && exit 0
       tee ~/.bash_profile << 'EOF'
       if [ -f ~/.profile ]; then
         . ~/.profile
