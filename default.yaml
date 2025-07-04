@@ -41,6 +41,6 @@ provision:
     script: |
       #!/bin/bash
       set -eux -o pipefail
-      . ~/.bash_profile >> ~/result_nvm # これをしないとなぜかnvmのパスが通らない
+      . ~/.bash_profile # これをしないとなぜかnvmのパスが通らない
       type nvm > /dev/null && exit 0 || true
       curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | PROFILE="$HOME/.bash_profile" bash
