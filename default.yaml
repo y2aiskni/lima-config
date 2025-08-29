@@ -34,7 +34,12 @@ provision:
       rm -rf /usr/local/go
       curl -L https://go.dev/dl/$(curl -fsSL "https://go.dev/VERSION?m=text" | head -n 1).linux-arm64.tar.gz | sudo tar -C /usr/local -zxvf -
       sudo tee /etc/profile.d/99-golang.sh << 'EOF'
+      #!/bin/bash
+      export GOPATH=$HOME/go
+      export GOBIN=$GOPATH/bin
+      
       export PATH=$PATH:/usr/local/go/bin
+      export PATH=$PATH:$GOBIN
       EOF
   # Install nvm
   - mode: user
