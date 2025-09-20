@@ -14,47 +14,76 @@ ssh:
   forwardAgent: true
 
 provision:
-  # Create a ~/.bash_profile file
+  # Shell Environment Settings
   - mode: user
     script: |
       #!/bin/bash
       set -eux -o pipefail
-      [ -f ~/.bash_profile ] && exit 0
-      tee ~/.bash_profile << 'EOF'
+      if [ ! -f ~/.bash_profile ]; then
+        tee ~/.bash_profile << 'EOF'
       if [ -f ~/.profile ]; then
         . ~/.profile
       fi
+      if [ -f ~/.bash_path ]; then
+        . ~/.bash_path
+      fi
       EOF
+      fi
+      if ! grep -q '. ~/.bash_path' ~/.bashrc; then
+        tee -a ~/.bashrc << 'EOF'
+      # BEGIN BASH_PATH
+      if [ -f ~/.bash_path ]; then
+        . ~/.bash_path
+      fi
+      # END BASH_PATH
+      EOF
+      fi
+      if [ ! -f ~/.bash_path ]; then
+        tee ~/.bash_path << 'EOF'
+      if [ -n "$_BASH_PATH_GUARD" ]; then
+        return
+      fi
+      export _BASH_PATH_GUARD=1
+      EOF
+      fi
   # Install Golang
   - mode: user
     script: |
       #!/bin/bash
       set -eux -o pipefail
+
       type go && exit 0 || true
-      rm -rf /usr/local/go
-      curl -L https://go.dev/dl/$(curl -fsSL "https://go.dev/VERSION?m=text" | head -n 1).linux-arm64.tar.gz | sudo tar -C /usr/local -zxvf -
-      sudo tee /etc/profile.d/99-golang.sh << 'EOF'
-      #!/bin/bash
+
+      sudo rm -rf /usr/local/go
+      curl -fsSL https://go.dev/dl/$(curl -fsSL https://go.dev/VERSION?m=text | head -n 1).linux-arm64.tar.gz | sudo tar -C /usr/local -zxvf -
+      tee -a $HOME/.bash_path << 'EOF'
+      # BEGIN Golang
       export GOPATH=$HOME/go
       export GOBIN=$GOPATH/bin
-      
+
       export PATH=$PATH:/usr/local/go/bin
       export PATH=$PATH:$GOBIN
+      # END Golang
       EOF
   # Install nvm
   - mode: user
     script: |
       #!/bin/bash
       set -eux -o pipefail
-      . ~/.bash_profile # これをしないとなぜかnvmのパスが通らない
-      type nvm > /dev/null && exit 0 || true
-      curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | PROFILE="$HOME/.bash_profile" bash
+
+      type nvm > /dev/null 2>&1 && exit 0 || true
+
+      sudo apt-get install -y jq
+      LATEST_VERSION=$(curl -fsSL https://api.github.com/repos/nvm-sh/nvm/releases/latest | jq -r '.tag_name')
+      curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/$LATEST_VERSION/install.sh | PROFILE="$HOME/.bash_path" bash
   # Install AWS CLI v2
   - mode: user
     script: |
       #!/bin/bash
       set -eux -o pipefail
+
       type aws && exit 0 || true
+
       sudo apt-get install -y unzip
       install -d /tmp/awscli && cd /tmp/awscli
       curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip"
