@@ -90,3 +90,13 @@ provision:
       unzip awscliv2.zip
       sudo ./aws/install
       cd && rm -rf /tmp/awscli
+  # Install usacloud
+  - mode: user
+    script: |
+      #!/bin/bash
+      set -eux -o pipefail
+
+      type usacloud && exit 0 || true
+
+      curl -fsSL https://github.com/sacloud/usacloud/releases/latest/download/install.sh | bash
+      usacloud completion bash | sudo tee /etc/bash_completion.d/usacloud
