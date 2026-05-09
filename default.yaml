@@ -8,6 +8,9 @@ mounts:
   - location: "{{.Home}}/archive"
     mountPoint: "{{.Home}}/archive"
     writable: true
+  - location: "{{.Home}}/Downloads"
+    mountPoint: "{{.Home}}/download"
+    writable: true
   - location: "/tmp/lima"
     writable: true
 
