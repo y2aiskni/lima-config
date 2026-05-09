@@ -5,7 +5,8 @@ images:
     location: "https://cloud-images.ubuntu.com/releases/24.04/release/ubuntu-24.04-server-cloudimg-arm64.img"
 
 mounts:
-  - location: "~/archive"
+  - location: "{{.Home}}/archive"
+    mountPoint: "{{.Home}}/archive"
     writable: true
   - location: "/tmp/lima"
     writable: true
