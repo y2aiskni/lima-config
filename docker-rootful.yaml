@@ -41,6 +41,12 @@ provision:
   expression: |
     .features.cdi = true |
     .features.containerd-snapshotter = {{.Param.containerdSnapshotter}}
+- mode: system
+  script: |
+    #!/bin/bash
+    set -eux -o pipefail
+    docker pull tonistiigi/binfmt
+    docker run --privileged --rm tonistiigi/binfmt --install all
 probes:
 - script: |
     #!/bin/bash
