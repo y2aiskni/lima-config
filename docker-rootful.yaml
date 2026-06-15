@@ -10,7 +10,6 @@ minimumLimaVersion: 2.0.0
 
 base:
 - template:_images/ubuntu-lts
-- template:_default/mounts
 
 # containerd is managed by Docker, not by Lima, so the values are set to false here.
 containerd:
