@@ -23,5 +23,5 @@ limactl shell default
 ### limaのvmでdockerだけ動かす
 
 ```shell
-limactl create https://raw.githubusercontent.com/y2aiskni/lima-config/refs/heads/main/docker-rootful.yaml
+limactl create https://raw.githubusercontent.com/y2aiskni/lima-config/refs/heads/main/docker.yaml
 ```
