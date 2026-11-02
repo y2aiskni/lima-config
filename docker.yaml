@@ -8,8 +8,29 @@
 
 minimumLimaVersion: 2.0.0
 
-base:
-- template:ubuntu-lts
+images:
+  - location: https://cloud-images.ubuntu.com/releases/resolute/release/ubuntu-26.04-server-cloudimg-amd64.img
+    arch: x86_64
+    variant: "server"
+  - location: https://cloud-images.ubuntu.com/releases/resolute/release/ubuntu-26.04-server-cloudimg-amd64v3.img
+    arch: x86_64
+    variant: "server"
+    archVariant: "v3"
+  - location: https://cloud-images.ubuntu.com/releases/resolute/release/ubuntu-26.04-server-cloudimg-arm64.img
+    arch: aarch64
+    variant: "server"
+  - location: https://cloud-images.ubuntu.com/releases/resolute/release/ubuntu-26.04-server-cloudimg-riscv64.img
+    arch: riscv64
+    variant: "server"
+  - location: https://cloud-images.ubuntu.com/releases/resolute/release/ubuntu-26.04-server-cloudimg-armhf.img
+    arch: armv7l
+    variant: "server"
+  - location: https://cloud-images.ubuntu.com/releases/resolute/release/ubuntu-26.04-server-cloudimg-s390x.img
+    arch: s390x
+    variant: "server"
+  - location: https://cloud-images.ubuntu.com/releases/resolute/release/ubuntu-26.04-server-cloudimg-ppc64el.img
+    arch: ppc64le
+    variant: "server"
 
 # containerd is managed by Docker, not by Lima, so the values are set to false here.
 containerd:
