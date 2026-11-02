@@ -28,6 +28,11 @@ provision:
   script: |
     #!/bin/bash
     set -eux -o pipefail
+    sed -i -E 's#http://(jp\.)?archive\.ubuntu\.com/ubuntu#https://ftp.iij.ad.jp/pub/linux/ubuntu/archive#g' /etc/apt/sources.list.d/ubuntu.sources
+- mode: system
+  script: |
+    #!/bin/bash
+    set -eux -o pipefail
     command -v docker >/dev/null 2>&1 && exit 0
     export DEBIAN_FRONTEND=noninteractive
     curl -fsSL https://get.docker.com | sh
